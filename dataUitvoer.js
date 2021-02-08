@@ -41,7 +41,14 @@ const maakDatum = (num) => {
     let maand    = datum.getMonth();
     let jaar     = datum.getFullYear();
     let uren     = datum.getHours();
+    if( uren < 10) {
+        uren = "0" + uren;
+    }
+
     let minuten  = datum.getMinutes();
+    if( minuten < 10 ) {
+        minuten = "0" + minuten;
+    }
 
     return `${geefDagWeek(dagWeek)} </br>
     ${dagMaand} ${maandNaam(maand)} ${jaar} ${uren}:${minuten}`;
@@ -53,7 +60,24 @@ const uitvoeren = () => {
     dataObject.forEach( obj => {
         html += `<div class="rij">`;
         html += `<div>${maakDatum(obj.tijd)}</div>`;
-        html += `<div>${obj.tempBuiten}</div>`;
+        html += `<div>${obj.tempBuiten} &deg;C</div>`;
+        html += `<div>${obj.tempBinnen} &deg;C</div>`;
+        html += `<div>${obj.tempGewenst} &deg;C</div>`;
+        if( obj.tempGewenst > obj.tempBinnen){
+            html += `<div><img class="icon" src="icons/vlam.svg" alt="CV uit"></div>`;
+        } else {
+            html += `<div><img class="icon" src="icons/vlamUIt.svg" alt="CV aan"></div>`;
+        }
+        if( obj.lichtKamer){
+            html += `<div><img class="icon" src="icons/lampAan.svg" alt="Lamp aan"></div>`;
+        } else {
+            html += `<div><img class="icon" src="icons/lampUIt.svg" alt="Lamp uit"></div>`;
+        }
+        if( obj.lichtBuiten){
+            html += `<div><img class="icon" src="icons/lampAan.svg" alt="Lamp aan"></div>`;
+        } else {
+            html += `<div><img class="icon" src="icons/lampUIt.svg" alt="Lamp uit"></div>`;
+        }
         html += "</div>";
     });
     uitvoer.innerHTML = html
